@@ -13,13 +13,26 @@ class ViewController: UIViewController {
     var subscriptions = [AnyCancellable]()
     lazy var stackView = UIStackView()
     lazy var loadingIndicator = UIActivityIndicatorView(style: .large)
-
+    lazy var refreshButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(loadingIndicator)
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.center = view.center
+
+        view.addSubview(refreshButton)
+        refreshButton.translatesAutoresizingMaskIntoConstraints = false
+        refreshButton.setTitle("Reload", for: .normal)
+        refreshButton.backgroundColor = UIColor.systemFill
+        refreshButton.layer.cornerRadius = 8.0
+        refreshButton.setTitleColor(UIColor.darkText, for: .normal)
+        NSLayoutConstraint.activate([
+            refreshButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            refreshButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            refreshButton.widthAnchor.constraint(equalToConstant: 150)
+        ])
+        refreshButton.addTarget(self, action: #selector(refresh), for: .primaryActionTriggered)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -29,6 +42,10 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil) { (notification) in
             self.load()
         }
+    }
+
+    @objc func refresh() {
+        load()
     }
 
     func load() {

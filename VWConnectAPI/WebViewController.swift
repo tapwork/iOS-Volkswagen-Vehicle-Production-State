@@ -45,6 +45,11 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         }
         return ""
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tokenHandler.send(completion: .finished)
+    }
 }
 
 extension WebViewController: WKScriptMessageHandler {
@@ -60,7 +65,6 @@ extension WebViewController: WKScriptMessageHandler {
             let token = tokenDict?["access_token"] ?? ""
             if !token.isEmpty {
                 tokenHandler.send(token)
-                tokenHandler.send(completion: .finished)
                 presentingViewController?.dismiss(animated: true, completion: nil)
             }
         }
