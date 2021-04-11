@@ -13,6 +13,10 @@
 		728F262C2623247E001FEA61 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 728F262A2623247E001FEA61 /* Main.storyboard */; };
 		728F262E2623247F001FEA61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 728F262D2623247F001FEA61 /* Assets.xcassets */; };
 		728F26312623247F001FEA61 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 728F262F2623247F001FEA61 /* LaunchScreen.storyboard */; };
+		728F263A26233C99001FEA61 /* ajaxinject.js in Resources */ = {isa = PBXBuildFile; fileRef = 728F263926233C99001FEA61 /* ajaxinject.js */; };
+		728F263D2623433C001FEA61 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728F263C2623433C001FEA61 /* WebViewController.swift */; };
+		728F2640262343AB001FEA61 /* VehicleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728F263F262343AB001FEA61 /* VehicleState.swift */; };
+		728F264326234474001FEA61 /* URLTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728F264226234474001FEA61 /* URLTarget.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		728F262D2623247F001FEA61 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		728F26302623247F001FEA61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		728F26322623247F001FEA61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		728F263926233C99001FEA61 /* ajaxinject.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = ajaxinject.js; sourceTree = "<group>"; };
+		728F263C2623433C001FEA61 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		728F263F262343AB001FEA61 /* VehicleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleState.swift; sourceTree = "<group>"; };
+		728F264226234474001FEA61 /* URLTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLTarget.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +68,13 @@
 				728F26262623247E001FEA61 /* SceneDelegate.swift */,
 				728F26282623247E001FEA61 /* ViewController.swift */,
 				728F262A2623247E001FEA61 /* Main.storyboard */,
+				728F263C2623433C001FEA61 /* WebViewController.swift */,
 				728F262D2623247F001FEA61 /* Assets.xcassets */,
 				728F262F2623247F001FEA61 /* LaunchScreen.storyboard */,
 				728F26322623247F001FEA61 /* Info.plist */,
+				728F263926233C99001FEA61 /* ajaxinject.js */,
+				728F263F262343AB001FEA61 /* VehicleState.swift */,
+				728F264226234474001FEA61 /* URLTarget.swift */,
 			);
 			path = VWConnectAPI;
 			sourceTree = "<group>";
@@ -125,6 +137,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				728F26312623247F001FEA61 /* LaunchScreen.storyboard in Resources */,
+				728F263A26233C99001FEA61 /* ajaxinject.js in Resources */,
 				728F262E2623247F001FEA61 /* Assets.xcassets in Resources */,
 				728F262C2623247E001FEA61 /* Main.storyboard in Resources */,
 			);
@@ -140,6 +153,9 @@
 				728F26292623247E001FEA61 /* ViewController.swift in Sources */,
 				728F26252623247E001FEA61 /* AppDelegate.swift in Sources */,
 				728F26272623247E001FEA61 /* SceneDelegate.swift in Sources */,
+				728F2640262343AB001FEA61 /* VehicleState.swift in Sources */,
+				728F264326234474001FEA61 /* URLTarget.swift in Sources */,
+				728F263D2623433C001FEA61 /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
