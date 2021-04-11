@@ -17,4 +17,5 @@ Build and run via Xcode.
 # Next
 Background updates and notifications when state has been changed 
 
+# References
 Inspired by: https://www.goingelectric.de/forum/viewtopic.php?f=393&t=60974
