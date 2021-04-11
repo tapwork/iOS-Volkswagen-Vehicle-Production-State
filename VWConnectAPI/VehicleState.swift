@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct VehicleState: Codable {
+struct VehicleState: Codable, Equatable {
     let commissionNumber: String
     let vin: String?
     let deliveryDate: String
@@ -17,7 +17,7 @@ struct VehicleState: Codable {
     let brand: String
     let modelCode: String
     let modelYear: String
-    let checkpointNumber: String
+    var checkpointNumber: String
     let detailStatus: String
 
     var orderDateLocalized: String {
@@ -29,33 +29,4 @@ struct VehicleState: Codable {
         }
         return DateFormatter.medium.string(from: date)
     }
-}
-
-extension DateFormatter {
-    static var zulu: DateFormatter {
-        let dateformatter = DateFormatter()
-        dateformatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        return dateformatter
-    }
-
-    static var delivery: DateFormatter {
-        let dateformatter = DateFormatter()
-        dateformatter.dateFormat = "yyyy-MM-dd"
-        return dateformatter
-    }
-
-    static var medium: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter
-    }
-}
-
-extension JSONDecoder {
-    static var shared: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(DateFormatter.zulu)
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return decoder
-    }()
 }

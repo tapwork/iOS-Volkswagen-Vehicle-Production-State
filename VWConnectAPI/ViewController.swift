@@ -7,14 +7,16 @@
 
 import UIKit
 import Combine
+import BackgroundTasks
 
 class ViewController: UIViewController {
-
+    let backgroundFetchIdentifier = "de.tapwork.vwconnectapi.backgroundrefresh"
     var subscriptions = [AnyCancellable]()
     lazy var scrollView = UIScrollView()
     lazy var stackView = UIStackView()
     lazy var loadingIndicator = UIActivityIndicatorView(style: .large)
     lazy var refreshButton = UIButton()
+    var refreshTask: BGAppRefreshTask?
 
     // MARK: View Life Cycle
     override func viewDidLoad() {
@@ -24,15 +26,15 @@ class ViewController: UIViewController {
         setupStackView()
         setupLoadingIndicator()
         setupRefreshButton()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
 
         load()
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil) { (notification) in
             self.load()
         }
+        NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { (notification) in
+            self.scheduleBackgroundRefresher()
+        }
+        registerBackgroundRefresher()
     }
 
     private func setupScrollView() {
@@ -116,7 +118,38 @@ class ViewController: UIViewController {
             .map {$0.data}
             .decode(type: [VehicleState].self, decoder: JSONDecoder.shared)
             .receive(on: RunLoop.main)
+            .map(sort)
+            .map(checkForLocalNotification)
+            .tryMap { try $0.store() }
             .eraseToAnyPublisher()
+    }
+
+    func sort(_ states: [VehicleState]) -> [VehicleState] {
+        states.sorted(by: {$0.commissionNumber < $1.commissionNumber})
+    }
+
+    func checkForLocalNotification(_ newStates: [VehicleState]) -> [VehicleState] {
+        guard let stored = try? [VehicleState].self.load() else {
+            return newStates
+        }
+        if stored != newStates {
+            triggerLocalNotification()
+        }
+
+        return newStates
+    }
+
+    func triggerLocalNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "New status"
+        content.body = "The production status of your vehicle has changed. Check now!"
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: Date().description, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request) {
+            if let error = $0 {
+                 print(error)
+            }
+        }
     }
 
     // MARK: Actions
@@ -127,13 +160,19 @@ class ViewController: UIViewController {
     func load() {
         loadingIndicator.startAnimating()
         let webViewController = WebViewController(target: .login)
+        webViewController.modalPresentationStyle = .fullScreen
         present(webViewController, animated: true, completion: nil)
         webViewController
             .tokenHandler
             .flatMap(fetchVehicleState)
-            .sink { (error) in
-                print(error)
+            .sink { result in
+                var success = true
+                switch result {
+                case .finished: break
+                case .failure: success = false
+                }
                 self.loadingIndicator.stopAnimating()
+                self.refreshTask?.setTaskCompleted(success: success)
             } receiveValue: { states in
                 self.createContentViews(for: states)
             }
@@ -159,5 +198,29 @@ class ViewController: UIViewController {
             stackView.addArrangedSubview(createLabel(title: "Model Year", text: state.modelYear))
             stackView.addArrangedSubview(createSpacer())
         }
+    }
+
+    func registerBackgroundRefresher() {
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundFetchIdentifier, using: nil) { (task) in
+            self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
+        }
+    }
+
+    func scheduleBackgroundRefresher() {
+        let task = BGAppRefreshTaskRequest(identifier: backgroundFetchIdentifier)
+        task.earliestBeginDate = Date(timeIntervalSinceNow: 60)
+        do {
+          try BGTaskScheduler.shared.submit(task)
+        } catch {
+          print("Unable to submit task: \(error.localizedDescription)")
+        }
+    }
+
+    func handleAppRefreshTask(task: BGAppRefreshTask) {
+        task.expirationHandler = {
+            URLSession.shared.invalidateAndCancel()
+        }
+        refreshTask = task
+        load()
     }
 }
