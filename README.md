@@ -1,9 +1,8 @@
 # iOS-Volkswagen-Vehicle-Production-State
 
-After adding your commission number into your Volkswagen account, you can get the production state and delivery date via the Volkswagen API.
+After entering your commission number in your Volkswagen account, you can get the production state and delivery date via the Volkswagen API.
 This iOS app makes it a bit easier to fetch the current state from the API. 
 Build and run via Xcode. 
-
 
 # How To 
 1. Have a Mac
@@ -14,5 +13,8 @@ Build and run via Xcode.
 
 # Example
 ![example](example.png)
+
+# Next
+Background updates and notifications when state has been changed 
 
 Inspired by: https://www.goingelectric.de/forum/viewtopic.php?f=393&t=60974
