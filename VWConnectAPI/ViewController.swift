@@ -113,6 +113,54 @@ class ViewController: UIViewController {
         return view
     }
 
+    func createContentViews(for states: [VehicleState]) {
+        stackView.arrangedSubviews.forEach { (view) in
+            view.removeFromSuperview()
+            stackView.removeArrangedSubview(view)
+        }
+        states.forEach { (state) in
+            stackView.addArrangedSubview(createLabel(title: "Brand", text: state.brand))
+            stackView.addArrangedSubview(createLabel(title: "Name", text: state.name))
+            stackView.addArrangedSubview(createLabel(title: "VIN", text: state.vin ?? "n.a."))
+            stackView.addArrangedSubview(createLabel(title: "Commission Number", text: state.commissionNumber))
+            stackView.addArrangedSubview(createLabel(title: "Checkpoint Number", text: state.checkpointNumber))
+            stackView.addArrangedSubview(createLabel(title: "Detail Status", text: state.detailStatus))
+            stackView.addArrangedSubview(createLabel(title: "Order Status", text: state.orderStatus))
+            stackView.addArrangedSubview(createLabel(title: "Delivery Date", text: state.deliveryDateLocalized))
+            stackView.addArrangedSubview(createLabel(title: "Order Date", text: state.orderDateLocalized))
+            stackView.addArrangedSubview(createLabel(title: "Model Code", text: state.modelCode))
+            stackView.addArrangedSubview(createLabel(title: "Model Year", text: state.modelYear))
+            stackView.addArrangedSubview(createSpacer())
+        }
+    }
+
+    // MARK: Loading
+    @objc func refresh() {
+        load()
+    }
+
+    func load() {
+        loadingIndicator.startAnimating()
+        let webViewController = WebViewController(target: .login)
+        webViewController.modalPresentationStyle = .fullScreen
+        present(webViewController, animated: true, completion: nil)
+        webViewController
+            .tokenHandler
+            .flatMap(fetchVehicleState)
+            .sink { result in
+                var success = true
+                switch result {
+                case .finished: break
+                case .failure: success = false
+                }
+                self.loadingIndicator.stopAnimating()
+                self.refreshTask?.setTaskCompleted(success: success)
+            } receiveValue: { states in
+                self.createContentViews(for: states)
+            }
+            .store(in: &subscriptions)
+    }
+
     func fetchVehicleState(_ token: String) -> AnyPublisher<[VehicleState], Error> {
         URLSession.shared.dataTaskPublisher(for: URLTarget.state.request(accessToken: token))
             .map {$0.data}
@@ -149,54 +197,6 @@ class ViewController: UIViewController {
             if let error = $0 {
                  print(error)
             }
-        }
-    }
-
-    // MARK: Actions
-    @objc func refresh() {
-        load()
-    }
-
-    func load() {
-        loadingIndicator.startAnimating()
-        let webViewController = WebViewController(target: .login)
-        webViewController.modalPresentationStyle = .fullScreen
-        present(webViewController, animated: true, completion: nil)
-        webViewController
-            .tokenHandler
-            .flatMap(fetchVehicleState)
-            .sink { result in
-                var success = true
-                switch result {
-                case .finished: break
-                case .failure: success = false
-                }
-                self.loadingIndicator.stopAnimating()
-                self.refreshTask?.setTaskCompleted(success: success)
-            } receiveValue: { states in
-                self.createContentViews(for: states)
-            }
-            .store(in: &subscriptions)
-    }
-
-    func createContentViews(for states: [VehicleState]) {
-        stackView.arrangedSubviews.forEach { (view) in
-            view.removeFromSuperview()
-            stackView.removeArrangedSubview(view)
-        }
-        states.forEach { (state) in
-            stackView.addArrangedSubview(createLabel(title: "Brand", text: state.brand))
-            stackView.addArrangedSubview(createLabel(title: "Name", text: state.name))
-            stackView.addArrangedSubview(createLabel(title: "VIN", text: state.vin ?? "n.a."))
-            stackView.addArrangedSubview(createLabel(title: "Commission Number", text: state.commissionNumber))
-            stackView.addArrangedSubview(createLabel(title: "Checkpoint Number", text: state.checkpointNumber))
-            stackView.addArrangedSubview(createLabel(title: "Detail Status", text: state.detailStatus))
-            stackView.addArrangedSubview(createLabel(title: "Order Status", text: state.orderStatus))
-            stackView.addArrangedSubview(createLabel(title: "Delivery Date", text: state.deliveryDateLocalized))
-            stackView.addArrangedSubview(createLabel(title: "Order Date", text: state.orderDateLocalized))
-            stackView.addArrangedSubview(createLabel(title: "Model Code", text: state.modelCode))
-            stackView.addArrangedSubview(createLabel(title: "Model Year", text: state.modelYear))
-            stackView.addArrangedSubview(createSpacer())
         }
     }
 
