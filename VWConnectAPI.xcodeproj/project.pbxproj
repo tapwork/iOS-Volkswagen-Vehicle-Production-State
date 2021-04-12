@@ -21,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		728F26212623247E001FEA61 /* VWConnectAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VWConnectAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		728F26212623247E001FEA61 /* VWProductionState.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VWProductionState.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		728F26242623247E001FEA61 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		728F26262623247E001FEA61 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		728F26282623247E001FEA61 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 		728F26222623247E001FEA61 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				728F26212623247E001FEA61 /* VWConnectAPI.app */,
+				728F26212623247E001FEA61 /* VWProductionState.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,7 +99,7 @@
 			);
 			name = VWConnectAPI;
 			productName = VWConnectAPI;
-			productReference = 728F26212623247E001FEA61 /* VWConnectAPI.app */;
+			productReference = 728F26212623247E001FEA61 /* VWProductionState.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -306,7 +306,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = D5PCJAP39R;
 				INFOPLIST_FILE = VWConnectAPI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -314,7 +315,8 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = de.tapwork.vwconnectapi;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VWProductionState;
+				PROVISIONING_PROFILE_SPECIFIER = VWConnectAPI;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -325,7 +327,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = D5PCJAP39R;
 				INFOPLIST_FILE = VWConnectAPI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -333,7 +336,8 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = de.tapwork.vwconnectapi;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = VWProductionState;
+				PROVISIONING_PROFILE_SPECIFIER = VWConnectAPI;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
