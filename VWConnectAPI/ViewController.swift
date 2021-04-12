@@ -201,7 +201,7 @@ class ViewController: UIViewController {
     }
 
     func registerBackgroundRefresher() {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundFetchIdentifier, using: nil) { (task) in
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundFetchIdentifier, using: DispatchQueue.main) { (task) in
             self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
         }
     }
