@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     lazy var loadingIndicator = UIActivityIndicatorView(style: .large)
     lazy var refreshButton = UIButton()
     var refreshTask: BGAppRefreshTask?
+    var viewAppearedOnce = false
 
     // MARK: View Life Cycle
     override func viewDidLoad() {
@@ -27,7 +28,6 @@ class ViewController: UIViewController {
         setupLoadingIndicator()
         setupRefreshButton()
 
-        load()
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil) { (notification) in
             self.load()
         }
@@ -35,6 +35,15 @@ class ViewController: UIViewController {
             self.scheduleBackgroundRefresher()
         }
         registerBackgroundRefresher()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if !viewAppearedOnce {
+            viewAppearedOnce = true
+            load()
+        }
     }
 
     private func setupScrollView() {
@@ -180,7 +189,7 @@ class ViewController: UIViewController {
         guard let stored = try? [VehicleState].self.load() else {
             return newStates
         }
-        if stored != newStates {
+        if !newStates.isEmpty && stored != newStates {
             triggerLocalNotification()
         }
 
