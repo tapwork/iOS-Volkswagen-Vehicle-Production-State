@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		723663FF262D62F900E5590D /* BackgroundFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723663FE262D62F900E5590D /* BackgroundFetcher.swift */; };
 		728F26252623247E001FEA61 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728F26242623247E001FEA61 /* AppDelegate.swift */; };
 		728F26272623247E001FEA61 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728F26262623247E001FEA61 /* SceneDelegate.swift */; };
 		728F26292623247E001FEA61 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728F26282623247E001FEA61 /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		723663FE262D62F900E5590D /* BackgroundFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundFetcher.swift; sourceTree = "<group>"; };
 		728F26212623247E001FEA61 /* VWProductionState.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VWProductionState.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		728F26242623247E001FEA61 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		728F26262623247E001FEA61 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 		728F26232623247E001FEA61 /* VWConnectAPI */ = {
 			isa = PBXGroup;
 			children = (
+				723663FE262D62F900E5590D /* BackgroundFetcher.swift */,
 				728F26242623247E001FEA61 /* AppDelegate.swift */,
 				728F26262623247E001FEA61 /* SceneDelegate.swift */,
 				728F26282623247E001FEA61 /* ViewController.swift */,
@@ -98,6 +101,8 @@
 			dependencies = (
 			);
 			name = VWConnectAPI;
+			packageProductDependencies = (
+			);
 			productName = VWConnectAPI;
 			productReference = 728F26212623247E001FEA61 /* VWProductionState.app */;
 			productType = "com.apple.product-type.application";
@@ -125,6 +130,8 @@
 				Base,
 			);
 			mainGroup = 728F26182623247E001FEA61;
+			packageReferences = (
+			);
 			productRefGroup = 728F26222623247E001FEA61 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -156,6 +163,7 @@
 				728F26292623247E001FEA61 /* ViewController.swift in Sources */,
 				728F26252623247E001FEA61 /* AppDelegate.swift in Sources */,
 				728F26272623247E001FEA61 /* SceneDelegate.swift in Sources */,
+				723663FF262D62F900E5590D /* BackgroundFetcher.swift in Sources */,
 				728F2640262343AB001FEA61 /* VehicleState.swift in Sources */,
 				728F264326234474001FEA61 /* URLTarget.swift in Sources */,
 				728F263D2623433C001FEA61 /* WebViewController.swift in Sources */,
@@ -308,7 +316,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = D5PCJAP39R;
 				INFOPLIST_FILE = VWConnectAPI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -330,7 +338,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = D5PCJAP39R;
 				INFOPLIST_FILE = VWConnectAPI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

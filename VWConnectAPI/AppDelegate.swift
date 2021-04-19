@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(error.localizedDescription)
             }
         }
+        BackgroundFetcher.shared.register()
 
         return true
     }

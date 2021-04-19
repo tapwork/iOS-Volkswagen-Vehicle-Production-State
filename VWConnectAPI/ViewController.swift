@@ -7,16 +7,14 @@
 
 import UIKit
 import Combine
-import BackgroundTasks
 
 class ViewController: UIViewController {
-    let backgroundFetchIdentifier = "de.tapwork.vwconnectapi.backgroundrefresh"
+    
     var subscriptions = [AnyCancellable]()
     lazy var scrollView = UIScrollView()
     lazy var stackView = UIStackView()
     lazy var loadingIndicator = UIActivityIndicatorView(style: .large)
     lazy var refreshButton = UIButton()
-    var refreshTask: BGAppRefreshTask?
     var viewAppearedOnce = false
 
     // MARK: View Life Cycle
@@ -28,13 +26,7 @@ class ViewController: UIViewController {
         setupLoadingIndicator()
         setupRefreshButton()
 
-        NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil) { (notification) in
-            self.load()
-        }
-        NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { (notification) in
-            self.scheduleBackgroundRefresher()
-        }
-        registerBackgroundRefresher()
+        BackgroundFetcher.shared.update = load
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -163,11 +155,16 @@ class ViewController: UIViewController {
                 case .failure: success = false
                 }
                 self.loadingIndicator.stopAnimating()
-                self.refreshTask?.setTaskCompleted(success: success)
+                BackgroundFetcher.shared.completed(success)
             } receiveValue: { states in
                 self.createContentViews(for: states)
             }
             .store(in: &subscriptions)
+
+        NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification,
+                                               object: nil, queue: nil) { (notification) in
+            self.load()
+        }
     }
 
     func fetchVehicleState(_ token: String) -> AnyPublisher<[VehicleState], Error> {
@@ -207,29 +204,5 @@ class ViewController: UIViewController {
                  print(error)
             }
         }
-    }
-
-    func registerBackgroundRefresher() {
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundFetchIdentifier, using: DispatchQueue.main) { (task) in
-            self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
-        }
-    }
-
-    func scheduleBackgroundRefresher() {
-        let task = BGAppRefreshTaskRequest(identifier: backgroundFetchIdentifier)
-        task.earliestBeginDate = Date(timeIntervalSinceNow: 60)
-        do {
-          try BGTaskScheduler.shared.submit(task)
-        } catch {
-          print("Unable to submit task: \(error.localizedDescription)")
-        }
-    }
-
-    func handleAppRefreshTask(task: BGAppRefreshTask) {
-        task.expirationHandler = {
-            URLSession.shared.invalidateAndCancel()
-        }
-        refreshTask = task
-        load()
     }
 }
